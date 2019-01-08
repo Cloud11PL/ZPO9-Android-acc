@@ -2,4 +2,7 @@
     <string name="app_name">Accelerometer Output</string>
     <string name="button_start">Start</string>
     <string name="button_stop">Stop</string>
+    <string name="axisX">Axis X</string>
+    <string name="axisY">Axis Y</string>
+    <string name="axisZ">Axis Z</string>
 </resources>

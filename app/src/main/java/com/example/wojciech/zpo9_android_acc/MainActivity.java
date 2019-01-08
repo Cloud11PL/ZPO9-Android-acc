@@ -1,6 +1,7 @@
 package com.example.wojciech.zpo9_android_acc;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,10 +26,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor accelerometer;
     private boolean isRunning = false;
     private EditText editTextAx;
+    private EditText editTextAy;
+    private EditText editTextAz;
 
     private PowerManager powerManager;
     private PowerManager.WakeLock myWayClock;
-    private LineGraphSeries mSeries1;
+    private LineGraphSeries mSeriesX;
+    private LineGraphSeries mSeriesY;
+    private LineGraphSeries mSeriesZ;
     ArrayList OYData = new ArrayList();
     int maxX = 10;
     GraphView graph;
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        graph = (GraphView) findViewById(R.id.graph);
+        graph = findViewById(R.id.graph);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
@@ -48,17 +53,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         graph.getViewport().setMaxY(15);
         graph.getViewport().setScalable(true);
         graph.getViewport().setScalableY(true);
-        mSeries1 = new LineGraphSeries<>();
-        graph.addSeries(mSeries1);
+        mSeriesX = new LineGraphSeries<>();
+        mSeriesY = new LineGraphSeries<>();
+        mSeriesZ = new LineGraphSeries<>();
+        mSeriesX.setColor(Color.GREEN);
+        mSeriesY.setColor(Color.RED);
+        mSeriesZ.setColor(Color.BLUE);
+        graph.addSeries(mSeriesX);
+        graph.addSeries(mSeriesY);
+        graph.addSeries(mSeriesZ);
 
-        editTextAx = findViewById(R.id.sensor_output);
+        editTextAx = findViewById(R.id.sensor_outputX);
+        editTextAy = findViewById(R.id.sensor_outputY);
+        editTextAz = findViewById(R.id.sensor_outputZ);
 
         powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         myWayClock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"My:tagxD");
 
         sensor = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensor.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        sensor.registerListener(this,accelerometer,100000);
+        accelerometer = sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void onClickAction(View view) {
@@ -74,55 +88,67 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if(isRunning){
-            //if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+        if(isRunning) {
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 float ax = event.values[0]; //Skladowa x wektora przyspieszenia
+                float ay = event.values[1]; //Skladowa x wektora przyspieszenia
+                float az = event.values[2]; //Skladowa x wektora przyspieszenia
                 float timeStamp = event.timestamp; // czas w nano-s
-                Log.d(TAG,"aX = " + Float.toString(ax) + "timeStamp = " + Float.toString(timeStamp));
+                Log.d(TAG, "aX = " + Float.toString(ax) + "timeStamp = " + Float.toString(timeStamp));
                 editTextAx.setText(Float.toString(ax));
+                editTextAy.setText(Float.toString(ay));
+                editTextAz.setText(Float.toString(az));
                 OYData.add(ax);
                 int count = OYData.size();
                 DataPoint[] values = new DataPoint[count];
 
-                for (int i=0; i<count; i++) {
+                for (int i = 0; i < count; i++) {
                     double x = i;
                     double y = ax;
                     DataPoint v = new DataPoint(x, y);
                     values[i] = v;
                 }
 
-                if(count >= maxX){
+                if (count >= maxX) {
                     //graph.getViewport().setMaxX(count);
                     maxX = count;
                 }
                 //mSeries1 = new LineGraphSeries<>(values);
 
-                mSeries1.appendData(new DataPoint(graph2LastXValue, ax), true, count);
+                mSeriesX.appendData(new DataPoint(graph2LastXValue, ax), true, count);
+                mSeriesY.appendData(new DataPoint(graph2LastXValue, ay), true, count);
+                mSeriesZ.appendData(new DataPoint(graph2LastXValue, az), true, count);
                 graph2LastXValue += 1d;
             }
-
+        }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensorXD, int accuracy) {
-        sensor.registerListener(this,accelerometer,500000);
+        /*
+        Checking if sensor has changed accuracy. Output data may change.
+         */
+        sensor = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
         if (sensorXD == accelerometer) {
             switch (accuracy) {
                 case 0:
                     System.out.println("Unreliable");
-                    sensor.registerListener(this,accelerometer,500000);
+                    sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
                     break;
                 case 1:
                     System.out.println("Low Accuracy");
-                    sensor.registerListener(this,accelerometer,500000);
+                    sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
                     break;
                 case 2:
                     System.out.println("Medium Accuracy");
-                    sensor.registerListener(this,accelerometer,500000);
+                    //sensor.registerListener(this,accelerometer,1000000,1000000);
+                    sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
                     break;
                 case 3:
                     System.out.println("High Accuracy");
-                    sensor.registerListener(this,accelerometer,500000);
+                    sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
                     break;
             }
         }
