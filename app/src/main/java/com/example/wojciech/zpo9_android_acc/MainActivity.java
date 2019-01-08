@@ -7,6 +7,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.PowerManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +31,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private EditText editTextAx;
     private EditText editTextAy;
     private EditText editTextAz;
+    private TabLayout tabs;
+    ViewPager viewPager;
+
+
+    private PagerAdapter pagerAdapter;
+
+
 
     private PowerManager powerManager;
     private PowerManager.WakeLock myWayClock;
@@ -44,6 +54,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        pagerAdapter = new com.example.wojciech.zpo9_android_acc.PagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        setupNewPager(viewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabs = findViewById(R.id.tabs);
         graph = findViewById(R.id.graph);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
@@ -73,6 +92,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensor = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+
+    public void setupNewPager(ViewPager viewPager){
+        com.example.wojciech.zpo9_android_acc.PagerAdapter pagerAdapter = new com.example.wojciech.zpo9_android_acc.PagerAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(new AccelerometerFragment(),"Accelerometer Output");
+        pagerAdapter.addFragment(new GyroscopeFragment(),"Gyroscope Output");
+        viewPager.setAdapter(pagerAdapter);
+    }
+
+    public SensorManager sManager(){
+        powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        myWayClock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"My:tagxD");
+
+        sensor = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
+        return sensor;
     }
 
     public void onClickAction(View view) {

@@ -5,4 +5,11 @@
     <string name="axisX">Axis X</string>
     <string name="axisY">Axis Y</string>
     <string name="axisZ">Axis Z</string>
+    <string name="tab_a">Accelerometer</string>
+    <string name="tab_g">Gyroscope</string>
+    <string name="info_text_a">Accelerometer Output</string>
+    <string name="info_text_g">Gyroscope Output</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
