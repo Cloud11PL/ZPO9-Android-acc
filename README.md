@@ -2,11 +2,14 @@
 
 Implementacja powyższego algorytmu nosi za sobą wiele wad, które, jeśli chcąc zaimplementować go w faktycznej, komerycjnej aplikacji, mogą znacznie obniżyć poziom aplikacji przy koszcie straty czasu i niepełnie działącej usłudze. Problemy jej implementacji, biorąc pod uwagę łatwodostępne rozwiązania, nie wydaje się słusznym pomysłem.
 
-System Android od *API 19* posiada zaimplementowane metody pozwalające na:
+System Android od *API 19* (od 2013 roku) posiada zaimplementowane metody pozwalające na:
 * Liczenie kroków,
 * Wywołanie metody przy wykonaniu kroku,
+
+Metody zostały później ulepszone o:
 * Pobieranie kumulatywne ilości kroków w danym czasie,
-* Subskrypcja detekcji kroków.
+* Subskrypcję detekcji kroków,
+* [Wiele więcej](https://developers.google.com/fit/android/)
 
 Implementacja algorytmu, który będzie dokładnie dokonywał rejestracji kroku, jego rodzaju, szybkości biegu lub chodzenia stanowi ciężkie wyzwanie, dlatego nie dziwnym jest, że temat ten stanowi główny wątek wielu [prac naukowych](https://scholar.google.pl/scholar?hl=en&as_sdt=0%2C5&q=step+detection+algorithm&btnG=&oq=step+detection+a). 
 
