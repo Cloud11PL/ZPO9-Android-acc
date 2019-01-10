@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Accelerometer Output</string>
+    <string name="app_name">Sensor Output Analysis</string>
     <string name="button_start">Start</string>
     <string name="button_stop">Stop</string>
     <string name="axisX">Axis X</string>

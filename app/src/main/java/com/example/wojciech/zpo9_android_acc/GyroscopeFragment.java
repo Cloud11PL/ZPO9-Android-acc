@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,12 +18,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GyroscopeFragment extends Fragment implements SensorEventListener {
@@ -39,6 +45,8 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
     private TabLayout tabs;
     ViewPager viewPager;
 
+    Button button;
+
     private PowerManager powerManager;
     private PowerManager.WakeLock myWayClock;
     private LineGraphSeries mSeriesX;
@@ -48,13 +56,13 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
     int maxX = 10;
     GraphView graph;
     private double graph2LastXValue = 5d;
+    private ArrayList<pointData> dataToSave = new ArrayList<>();
 
-    //MainActivity mA = new MainActivity();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.accelometer_fragment,container,false);
+        View view = inflater.inflate(R.layout.gyroscope_fragment,container,false);
 
         graph = view.findViewById(R.id.graph);
         graph.getViewport().setXAxisBoundsManual(true);
@@ -79,6 +87,24 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
         editTextAy = view.findViewById(R.id.sensor_outputY);
         editTextAz = view.findViewById(R.id.sensor_outputZ);
 
+        button = (Button) view.findViewById(R.id.buttonG);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                isRunning = !isRunning;
+                Log.d(TAG,"Button Pressed");
+                if (isRunning) {
+                    myWayClock.acquire();
+                    button.setText(getResources().getString(R.string.button_stop));
+                } else {
+                    myWayClock.release();
+                    button.setText(getResources().getString(R.string.button_start));
+                }
+            }
+        });
+
 
         powerManager = (PowerManager) this.getActivity().getSystemService(Context.POWER_SERVICE);
         myWayClock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"My:tagxD");
@@ -90,16 +116,6 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
         return view;
     }
 
-    public void onClickActionG(View view) {
-        isRunning = !isRunning;
-        Log.d(TAG,"Button Pressed");
-        if (isRunning) {
-            myWayClock.acquire();
-        } else {
-            myWayClock.release();
-        }
-    }
-
     @Override
     public void onSensorChanged(SensorEvent event) {
 
@@ -109,6 +125,11 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
                 float ay = event.values[1]; //Skladowa x wektora przyspieszenia
                 float az = event.values[2]; //Skladowa x wektora przyspieszenia
                 float timeStamp = event.timestamp; // czas w nano-s
+                if(!Float.valueOf(ax).isNaN()){
+                    pointData pointDataXD = new pointData(Float.toString(event.values[0]),Float.toString(event.values[1]),Float.toString(event.values[2]));
+                    System.out.println(pointDataXD.getX());
+                    dataToSave.add(pointDataXD);
+                }
                 Log.d(TAG, "aX = " + Float.toString(ax) + "timeStamp = " + Float.toString(timeStamp));
                 editTextAx.setText(Float.toString(ax));
                 editTextAy.setText(Float.toString(ay));
@@ -125,10 +146,13 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
                 }
 
                 if (count >= maxX) {
-                    //graph.getViewport().setMaxX(count);
                     maxX = count;
                 }
-                //mSeries1 = new LineGraphSeries<>(values);
+
+                /*
+                W porównaniu do akcelerometru, w przypadku gyroskopu zastosowano index jako wartość na osi OX.
+                Można tworzyć oba typy wykresu w zależności od potrzeb.
+                 */
 
                 mSeriesX.appendData(new DataPoint(graph2LastXValue, ax), true, count);
                 mSeriesY.appendData(new DataPoint(graph2LastXValue, ay), true, count);
@@ -142,6 +166,7 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensorXD, int accuracy) {
         /*
         Checking if sensor has changed accuracy. Output data may change.
+        Spoiler, it does. A lot.
          */
         sensor = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -158,7 +183,6 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
                     break;
                 case 2:
                     System.out.println("Medium Accuracy");
-                    //sensor.registerListener(this,accelerometer,1000000,1000000);
                     sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
                     break;
                 case 3:
@@ -166,6 +190,27 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
                     sensor.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
                     break;
             }
+        }
+    }
+
+    public void writeDataToDeviceA() {
+        if (dataToSave.size() > 0) {
+            try {
+                File root = new File(Environment.getExternalStorageDirectory(), "Output Sensor Data");
+                if (!root.exists()) {
+                    root.mkdirs();
+                }
+                File gpxfile = new File(root, "GyroData.txt");
+                FileWriter writer = new FileWriter(gpxfile,true);
+                writer.append(String.valueOf(dataToSave));
+                writer.flush();
+                writer.close();
+                Toast.makeText(getContext(), "Gyroscope Data Saved", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
         }
     }
 }
