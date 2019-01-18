@@ -84,6 +84,9 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         graph.getViewport().setMaxY(15);
         graph.getViewport().setScalable(true);
         graph.getViewport().setScalableY(true);
+        /*
+        To wyciagnac V
+         */
         mSeriesX = new LineGraphSeries<>();
         mSeriesY = new LineGraphSeries<>();
         mSeriesZ = new LineGraphSeries<>();
@@ -170,7 +173,6 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
                 mSeriesX.appendData(new DataPoint(actualDate, ax), true, count);
                 mSeriesY.appendData(new DataPoint(actualDate, ay), true, count);
                 mSeriesZ.appendData(new DataPoint(actualDate, az), true, count);
-
 
                 graph2LastXValue += 1d;
             }

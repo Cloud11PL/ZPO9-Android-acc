@@ -12,8 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc24f34b-fb30-4ceb-80c8-f2970c3c12f5" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/pointData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" afterDir="false" />
@@ -25,15 +23,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/AccelerometerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/AccelerometerFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/GyroscopeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/GyroscopeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/ObjectFragment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/PagerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/PagerAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/RealTimeGraph.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/accelometer_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/accelometer_fragment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/gyroscope_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/gyroscope_fragment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -93,8 +82,11 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="238">
+              <caret line="14" column="49" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
+              <folding>
+                <element signature="e#428#446#0" expanded="true" />
+              </folding>
             </state>
           </provider>
           <provider editor-type-id="android-manifest">
@@ -102,7 +94,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
           <provider editor-type-id="android-designer2">
             <state />
@@ -138,12 +130,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AccelerometerFragment.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AccelerometerFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/AccelerometerFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="332">
+              <caret line="87" column="22" selection-start-line="87" selection-start-column="22" selection-end-line="87" selection-end-column="22" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#2844#3188#0" expanded="true" />
                 <element signature="e#3187#3188#0" expanded="true" />
                 <element signature="e#4065#4615#0" expanded="true" />
@@ -2464,22 +2457,22 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/WriteData.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/pointData.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/RealTimeGraph.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/accelometer_fragment.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/GyroscopeFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/PagerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/AccelerometerFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/AccelerometerFragment.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
+    <option name="x" value="-14" />
     <option name="width" value="1944" />
-    <option name="height" value="2082" />
+    <option name="height" value="2084" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -2694,7 +2687,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1719" height="932" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -2793,6 +2785,7 @@
         <state relative-caret-position="986">
           <caret line="82" selection-start-line="82" selection-end-line="84" selection-end-column="60" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#2844#3188#0" expanded="true" />
             <element signature="e#3187#3188#0" expanded="true" />
             <element signature="e#4065#4615#0" expanded="true" />
@@ -3100,29 +3093,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/AccelerometerFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-          <folding>
-            <element signature="e#2844#3188#0" expanded="true" />
-            <element signature="e#3187#3188#0" expanded="true" />
-            <element signature="e#4065#4615#0" expanded="true" />
-            <element signature="e#4373#4419#0" expanded="true" />
-            <element signature="e#4524#4571#0" expanded="true" />
-            <element signature="e#4614#4615#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="android-designer2">
         <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/PagerAdapter.java">
@@ -3135,13 +3113,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer2">
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="49" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
+          <folding>
+            <element signature="e#428#446#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/wojciech/zpo9_android_acc/AccelerometerFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+        <state relative-caret-position="332">
+          <caret line="87" column="22" selection-start-line="87" selection-start-column="22" selection-end-line="87" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2844#3188#0" expanded="true" />
+            <element signature="e#3187#3188#0" expanded="true" />
+            <element signature="e#4065#4615#0" expanded="true" />
+            <element signature="e#4373#4419#0" expanded="true" />
+            <element signature="e#4524#4571#0" expanded="true" />
+            <element signature="e#4614#4615#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
