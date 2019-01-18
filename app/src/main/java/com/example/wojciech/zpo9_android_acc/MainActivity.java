@@ -1,6 +1,5 @@
 package com.example.wojciech.zpo9_android_acc;
 
-import android.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 
@@ -59,6 +57,5 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter.addFragment(acc,"Accelerometer Output");
         pagerAdapter.addFragment(gyro,"Gyroscope Output");
         viewPager.setAdapter(pagerAdapter);
-
     }
 }

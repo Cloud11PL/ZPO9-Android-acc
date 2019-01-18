@@ -39,6 +39,7 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
 
     private Sensor accelerometer;
     private boolean isRunning = false;
+    private boolean wasRunning = false;
     private EditText editTextAx;
     private EditText editTextAy;
     private EditText editTextAz;
@@ -55,8 +56,12 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
     ArrayList OYData = new ArrayList();
     int maxX = 10;
     GraphView graph;
-    private double graph2LastXValue = 5d;
+    private double graph2LastXValue = 0d;
     private ArrayList<pointData> dataToSave = new ArrayList<>();
+    private ArrayList<Float> eventX = new ArrayList<>();
+    private ArrayList<Float> eventY = new ArrayList<>();
+    private ArrayList<Float> eventZ = new ArrayList<>();
+    private ArrayList allPoints = new ArrayList<>();
 
 
     @Nullable
@@ -83,6 +88,17 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
         graph.addSeries(mSeriesY);
         graph.addSeries(mSeriesZ);
 
+        if(savedInstanceState != null){
+            isRunning = savedInstanceState.getBoolean("isRunning");
+            wasRunning = savedInstanceState.getBoolean("wasRunning");
+            eventX = (ArrayList<Float>) savedInstanceState.get("dataX");
+            eventY = (ArrayList<Float>) savedInstanceState.get("dataY");
+            eventZ = (ArrayList<Float>) savedInstanceState.get("dataZ");
+            dataToSave = (ArrayList<pointData>) savedInstanceState.get("dataToSave");
+            allPoints = (ArrayList<pointData>) savedInstanceState.get("points");
+            inputDataToSeriesOnStateChange(eventX,eventY,eventZ,allPoints);
+        }
+
         editTextAx = view.findViewById(R.id.sensor_outputX);
         editTextAy = view.findViewById(R.id.sensor_outputY);
         editTextAz = view.findViewById(R.id.sensor_outputZ);
@@ -99,7 +115,15 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
                     myWayClock.acquire();
                     button.setText(getResources().getString(R.string.button_stop));
                 } else {
-                    myWayClock.release();
+                    if (myWayClock != null) {
+                        Log.v(TAG, "Releasing wakelock");
+                        try {
+                            myWayClock.release();
+                        } catch (Throwable th) {
+                        }
+                    } else {
+                        Log.e(TAG, "gyroscope_fragment");
+                    }
                     button.setText(getResources().getString(R.string.button_start));
                 }
             }
@@ -125,11 +149,17 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
                 float ay = event.values[1]; //Skladowa x wektora przyspieszenia
                 float az = event.values[2]; //Skladowa x wektora przyspieszenia
                 float timeStamp = event.timestamp; // czas w nano-s
+
                 if(!Float.valueOf(ax).isNaN()){
                     pointData pointDataXD = new pointData(Float.toString(event.values[0]),Float.toString(event.values[1]),Float.toString(event.values[2]));
+                    eventX.add(event.values[0]);
+                    eventY.add(event.values[1]);
+                    eventZ.add(event.values[2]);
+                    allPoints.add(graph2LastXValue);
                     System.out.println(pointDataXD.getX());
                     dataToSave.add(pointDataXD);
                 }
+
                 Log.d(TAG, "aX = " + Float.toString(ax) + "timeStamp = " + Float.toString(timeStamp));
                 editTextAx.setText(Float.toString(ax));
                 editTextAy.setText(Float.toString(ay));
@@ -153,6 +183,7 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
                 W porównaniu do akcelerometru, w przypadku gyroskopu zastosowano index jako wartość na osi OX.
                 Można tworzyć oba typy wykresu w zależności od potrzeb.
                  */
+                System.out.println(graph2LastXValue + "XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 
                 mSeriesX.appendData(new DataPoint(graph2LastXValue, ax), true, count);
                 mSeriesY.appendData(new DataPoint(graph2LastXValue, ay), true, count);
@@ -193,6 +224,30 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
         }
     }
 
+    public void inputDataToSeriesOnStateChange(ArrayList X, ArrayList Y, ArrayList Z, ArrayList points){
+        int counter = Z.size();
+        for(int i = 0; i < counter; i++){
+            float ax = (Float) X.get(i);
+            float ay = (Float) Y.get(i);
+            float az = (Float) Z.get(i);
+            System.out.println("XDDDDDDDDDDDDDDDDDDDDD");
+            System.out.println(ax);
+            System.out.println(ay);
+            System.out.println(az);
+            System.out.println(graph2LastXValue);
+            double xD = (double) points.get(i);
+            System.out.println(xD + "XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+            pointData pointDataXD = new pointData(Float.toString(ax),Float.toString(ay),Float.toString(az));
+            mSeriesX.appendData(new DataPoint(xD, ax), true, counter);
+            mSeriesY.appendData(new DataPoint(xD, ay), true, counter);
+            mSeriesZ.appendData(new DataPoint(xD, az), true, counter);
+            graph2LastXValue = xD;
+            graph2LastXValue += 1d;
+
+        }
+
+    }
+
     public void writeDataToDeviceA() {
         if (dataToSave.size() > 0) {
             try {
@@ -211,6 +266,33 @@ public class GyroscopeFragment extends Fragment implements SensorEventListener {
             }
         } else {
             Toast.makeText(getContext(), "No data available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isRunning",isRunning);
+        outState.putBoolean("wasRunning",wasRunning);
+        outState.putSerializable("dataX", eventX);
+        outState.putSerializable("dataY", eventY);
+        outState.putSerializable("dataZ", eventZ);
+        outState.putSerializable("dataToSave", dataToSave);
+        outState.putSerializable("points", allPoints);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        wasRunning = isRunning;
+        isRunning = false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(wasRunning){
+            isRunning = false;
         }
     }
 }
